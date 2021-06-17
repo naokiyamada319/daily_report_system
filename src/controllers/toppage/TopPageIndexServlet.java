@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Follow;
 import models.Report;
 import utils.DBUtil;
 
@@ -54,11 +55,25 @@ public class TopPageIndexServlet extends HttpServlet {
 									 .setParameter("employee", login_employee)
 									 .getSingleResult();
 
+		List<Follow> follows = em.createNamedQuery("getMyAllFollows", Follow.class)
+                                      .setParameter("employee", login_employee)
+                                      .setFirstResult(15 * (page - 1))
+                                      .setMaxResults(15)
+                                      .getResultList();
+
+        long follows_count = (long)em.createNamedQuery("getMyFollowsCount", Long.class)
+                                     .setParameter("employee", login_employee)
+                                     .getSingleResult();
+
+
 		em.close();
 
 		request.setAttribute("reports", reports);
 		request.setAttribute("reports_count", reports_count);
+		request.setAttribute("follows", follows);
+		request.setAttribute("follows_count", follows_count);
 		request.setAttribute("page", page);
+
 
 		if(request.getSession().getAttribute("flush") != null) {
 			request.setAttribute("flush", request.getSession().getAttribute("flush"));

@@ -1,6 +1,7 @@
 package controllers.reports;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Follow;
 import models.Report;
 import utils.DBUtil;
 
@@ -36,8 +38,18 @@ public class ReportsShowServlet extends HttpServlet {
 
 		Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
-		em.close();
+		List<Follow> followeeList = em.createNamedQuery("getMyFollowee", Follow.class)
+				                      .setParameter("me", request.getSession().getAttribute("login_employee"))
+		                              .setParameter("other", r.getEmployee())
+		                              .getResultList();
 
+		em.close();
+		Boolean followStatus = false;
+		if(followeeList.size() > 0) {
+			followStatus = true;
+		}
+
+		request.setAttribute("followStatus", followStatus);
 		request.setAttribute("report", r);
 		request.setAttribute("_token", request.getSession().getId());
 
