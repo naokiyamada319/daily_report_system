@@ -53,7 +53,7 @@
 					<th class="follow_title">タイトル</th>
 					<th class="follow_action">操作</th>
 				</tr>
-				<c:forEach var="follow" items="${follows}" varStatus="status">
+				<c:forEach var="follow" items="${followReports}" varStatus="status">
 					<tr class="row${status.count % 2}">
 						<td class="follow_name"><c:out value="${report.employee.name}" /></td>
 						<td class="follow_date"><fmt:formatDate value='${report.report_date}' pattern='yyyy-MM-dd' /></td>

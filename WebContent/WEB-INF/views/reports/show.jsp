@@ -6,18 +6,20 @@
 		<c:choose>
 			<c:when test="${report != null}">
 				<h2>日報　詳細ページ</h2>
-				<c:when test="${followStatus}">
-					<form method="POST" action="/daily_report_system/followServlet">
-						<input type="hidden" name="followee_id" value="{report.employee.id}" />
-						<button type="submit">フォローする</button>
+				<c:choose>
+					<c:when test="{followStatus}">
+					<form method="POST" action="/daily_report_system/unfollow">
+						<input type="hidden" name="followee_id" value="${report.employee.id}" />
+						<button type="submit">フォロー解除</button>
 					</form>
-				</c:when>
+					</c:when>
 				<c:otherwise>
-					<form method="POST" action="/daily_report_system/unfollowservlet">
-						<input type="hidden" name="followee_id" value="{report.employee.id}" />
+					<form method="POST" action="/daily_report_system/follow">
+						<input type="hidden" name="followee_id" value="${report.employee.id}" />
 						<button type="submit">フォローする</button>
 					</form>
 				</c:otherwise>
+				</c:choose>
 				<table>
 					<tbody>
 						<tr>
