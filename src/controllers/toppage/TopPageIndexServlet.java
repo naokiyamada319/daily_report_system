@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
-import models.Follow;
 import models.Report;
 import utils.DBUtil;
 
@@ -55,7 +54,7 @@ public class TopPageIndexServlet extends HttpServlet {
 									 .setParameter("employee", login_employee)
 									 .getSingleResult();
 
-		List<Follow> follows  = em.createNamedQuery("getFollowList", Follow.class)
+		List<Employee> follows  = em.createNamedQuery("getFollowList", Employee.class)
 				                   .setParameter("me", login_employee)
 				                   .getResultList();
 
