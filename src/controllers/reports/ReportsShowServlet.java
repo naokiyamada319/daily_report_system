@@ -40,7 +40,7 @@ public class ReportsShowServlet extends HttpServlet {
 
 		List<Follow> followeeList = em.createNamedQuery("getAllFollowee", Follow.class)
 				                      .setParameter("followee", request.getSession().getAttribute("login_employee"))
-		                              .setParameter("f.follower", r.getEmployee())
+		                              .setParameter("me", r.getEmployee())
 		                              .getResultList();
 
 		em.close();

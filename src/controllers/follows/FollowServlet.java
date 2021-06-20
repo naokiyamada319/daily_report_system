@@ -16,7 +16,7 @@ import utils.DBUtil;
 /**
  * Servlet implementation class FollowServlet
  */
-@WebServlet("/Follow")
+@WebServlet("/follow")
 public class FollowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,6 +43,7 @@ public class FollowServlet extends HttpServlet {
 		Employee e = em.find(Employee.class, Integer.parseInt(followee_id));
 
 		f.setFollowee(e);
+		f.setFollower(e);
 
 		request.setAttribute("followee_id", f);
 

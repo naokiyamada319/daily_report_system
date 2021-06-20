@@ -11,7 +11,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-@Table(name = "follows" )
+;@Table(name = "follows" )
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllFollowee",
@@ -49,9 +49,6 @@ public class Follow {
 	@JoinColumn(name = "followee_id", nullable = false)
 	private Employee followee;
 
-	@ManyToOne
-	@JoinColumn(name = "employee_id", nullable = false)
-	private Employee employee;
 
 	public Integer getId() {
 		return id;
@@ -77,11 +74,4 @@ public class Follow {
 		this.followee = followee;
 	}
 
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
 }

@@ -57,21 +57,22 @@ public class TopPageIndexServlet extends HttpServlet {
 		List<Employee> follows  = em.createNamedQuery("getFollowList", Employee.class)
 				                   .setParameter("me", login_employee)
 				                   .getResultList();
+		long follows_count = 0;
+		List<Report> followReports = null;
+		if(follows.size() > 0) {
+			follows_count = (long)em.createNamedQuery("getMyFolloweeCount", Long.class)
+					                .setParameter("followList", follows)
+					                .getSingleResult();
 
-
-		List<Report> followReports = em.createNamedQuery("getMyFollowee", Report.class)
-                                      .setParameter("followList", follows)
-                                      .setFirstResult(15 * (page - 1))
-                                      .setMaxResults(15)
-                                      .getResultList();
-
-        long follows_count = (long)em.createNamedQuery("getMyFolloweeCount", Long.class)
-                                     .setParameter("followList", follows)
-                                     .getSingleResult();
-
-
+			followReports = em.createNamedQuery("getMyFollowee", Report.class)
+					          .setParameter("followList", follows)
+					          .setFirstResult(15 * (page - 1))
+					          .setMaxResults(15)
+					          .getResultList();
+ 		}
 
 		em.close();
+
 
 		request.setAttribute("reports", reports);
 		request.setAttribute("reports_count", reports_count);
