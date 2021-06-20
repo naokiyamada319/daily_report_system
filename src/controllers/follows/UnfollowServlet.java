@@ -43,8 +43,7 @@ public class UnfollowServlet extends HttpServlet {
 		Employee e = em.find(Employee.class, Integer.parseInt(followee_id));
 
 		f.setFollowee(e);
-		f.setFollower(e);
-
+		f.setFollower((Employee)request.getSession().getAttribute("login_employee"));
 
 		request.setAttribute("followee_id", f);
 
