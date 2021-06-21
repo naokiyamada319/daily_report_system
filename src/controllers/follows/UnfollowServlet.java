@@ -1,6 +1,7 @@
 package controllers.follows;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
@@ -36,20 +37,21 @@ public class UnfollowServlet extends HttpServlet {
 
 		EntityManager em = DBUtil.createEntityManager();
 
-		Follow f = new Follow();
-
 		String followee_id = (String)request.getParameter("followee_id");
 
 		Employee e = em.find(Employee.class, Integer.parseInt(followee_id));
 
-		f.setFollowee(e);
-		f.setFollower((Employee)request.getSession().getAttribute("login_employee"));
+		List<Follow> followeeList = em.createNamedQuery("getAllFollowee", Follow.class)
+				                      .setParameter("followee", e)
+				                      .setParameter("me", request.getSession().getAttribute("login_employee"))
+				                      .getResultList();
 
-		request.setAttribute("followee_id", f);
-
-		em.getTransaction().begin();
-		em.remove(f);
-		em.getTransaction().commit();
+		if(followeeList.size() > 0) {
+			Follow f = (Follow) followeeList.get(0);
+			em.getTransaction().begin();
+			em.remove(f);
+			em.getTransaction().commit();
+		}
 		em.close();
 		response.sendRedirect(request.getContextPath() + "/reports/show?=" + followee_id);
 	}
