@@ -53,7 +53,7 @@ public class UnfollowServlet extends HttpServlet {
 			em.getTransaction().commit();
 		}
 		em.close();
-		response.sendRedirect(request.getContextPath() + "/reports/show?=" + followee_id);
+		response.sendRedirect(request.getContextPath() + "/reports/show?id=" + followee_id);
 	}
 
 }

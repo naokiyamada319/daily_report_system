@@ -39,7 +39,7 @@ public class ReportsShowServlet extends HttpServlet {
 		Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
 		List<Follow> followeeList = em.createNamedQuery("getAllFollowee", Follow.class)
-				                      .setParameter("followee", r.getEmployee())
+				                      .setParameter("followee", request.getSession().getAttribute("login_employee"))
 		                              .setParameter("me", request.getSession().getAttribute("login_employee"))
 		                              .getResultList();
 
