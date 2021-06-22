@@ -39,7 +39,7 @@ public class ReportsShowServlet extends HttpServlet {
 		Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
 		List<Follow> followeeList = em.createNamedQuery("getAllFollowee", Follow.class)
-				                      .setParameter("followee", request.getSession().getAttribute("login_employee"))
+				                      .setParameter("followee", r.getEmployee())
 		                              .setParameter("me", request.getSession().getAttribute("login_employee"))
 		                              .getResultList();
 
@@ -52,6 +52,12 @@ public class ReportsShowServlet extends HttpServlet {
 		request.setAttribute("followStatus", followStatus);
 		request.setAttribute("report", r);
 		request.setAttribute("_token", request.getSession().getId());
+
+		if(request.getSession().getAttribute("flush") != null) {
+
+			request.setAttribute("flush", request.getSession().getAttribute("flush"));
+			request.getSession().removeAttribute("flush");
+		}
 
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
 		rd.forward(request, response);

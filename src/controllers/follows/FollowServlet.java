@@ -42,6 +42,7 @@ public class FollowServlet extends HttpServlet {
 
 		Employee e = em.find(Employee.class, Integer.parseInt(followee_id));
 
+
 		f.setFollowee(e);
 		f.setFollower((Employee)request.getSession().getAttribute("login_employee"));
 
@@ -50,6 +51,7 @@ public class FollowServlet extends HttpServlet {
 		em.getTransaction().begin();
 		em.persist(f);
 		em.getTransaction().commit();
+		request.getSession().setAttribute("flush", "フォローしました！");
 		em.close();
 		response.sendRedirect(request.getContextPath() + "/reports/show?id=" + followee_id);
 	}

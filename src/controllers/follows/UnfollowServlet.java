@@ -51,6 +51,7 @@ public class UnfollowServlet extends HttpServlet {
 			em.getTransaction().begin();
 			em.remove(f);
 			em.getTransaction().commit();
+			request.getSession().setAttribute("flush", "フォローを解除しました");
 		}
 		em.close();
 		response.sendRedirect(request.getContextPath() + "/reports/show?id=" + followee_id);

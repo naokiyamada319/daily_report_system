@@ -3,12 +3,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:import url="/WEB-INF/views/layout/app.jsp">
 	<c:param name="content">
+		<c:if test="${flush != null}">
+			<div id="flush_success">
+				<c:out value="${flush}"></c:out>
+			</div>
+		</c:if>
 		<c:choose>
 			<c:when test="${report != null}">
 				<h2>日報　詳細ページ</h2>
 				<c:if test="${sessionScope.login_employee.id != report.employee.id}">
 					<c:choose>
-						<c:when test="{followStatus}">
+						<c:when test="${followStatus}">
 							<form method="POST" action="/daily_report_system/unfollow">
 								<input type="hidden" name="followee_id" value="${report.employee.id}" />
 								<button type="submit">フォロー解除</button>
